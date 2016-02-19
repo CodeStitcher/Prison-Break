@@ -1,0 +1,183 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class TextController : MonoBehaviour {
+
+	public Text text;
+	private enum States {cell, cell_1, cell_2, stone_0, stone_1, hay_0, hay_1, hay_2, lock_0, lock_1, freedom, ratKing};
+	private States myState;
+
+	// Use this for initialization
+	void Start ()
+	{
+		myState = States.cell;
+	}
+	
+	// Update is called once per frame
+	void Update ()
+	{
+		if (myState == States.cell) {
+			state_cell ();
+		} else if (myState == States.cell_1) {
+			state_cell_1 ();
+		} else if (myState == States.cell_2) {
+			state_cell_2 ();
+		} else if (myState == States.hay_0) {
+			state_hay_0 ();
+		} else if (myState == States.hay_1) {
+			state_hay_1 ();
+		} else if (myState == States.hay_2) {
+			state_hay_2 ();
+		} else if (myState == States.stone_0) {
+			state_stone_0 ();
+		} else if (myState == States.stone_1) {
+			state_stone_1 ();
+		} else if (myState == States.lock_0) {
+			state_lock_0 ();
+		} else if (myState == States.lock_1) {
+			state_lock_1 ();
+		} else if (myState == States.freedom) {
+			state_freedom ();
+		} else if (myState == States.ratKing) {
+			state_ratKing ();
+		}
+	}
+
+	void state_cell ()
+	{
+		text.text = "You are in a dark prison cell, with no idea how you got there. " +
+		"There is the tiniest bit of light creeping in from the crack beneath " +
+		"the door. Cold and terrified, only one thought creeps into your mind. " +
+		"Escape. There is a loose stone beneath your feet. The door is locked " +
+		"from the outside. A bail of hay in the corner, meant as your bed. \n\n" +
+		"Press S to view Loose Stone, H to go through the Hay and L to view the Locked Door.";
+		if (Input.GetKeyDown (KeyCode.H)) {
+			myState = States.hay_0;
+		} else if (Input.GetKeyDown (KeyCode.S)) {
+			myState = States.stone_0;
+		} else if (Input.GetKeyDown (KeyCode.L)) {
+			myState = States.lock_0;
+		}
+
+	}
+
+	void state_cell_1 ()
+	{
+		text.text = "The darkness of the prison cell calls to you, tormenting your soul. But now, the smallest " +
+		"sliver of hope lies in the palm of your hand. Are you ready to try to pick the lock? \n\n" +
+		"Press Y for Yes. Press H to go through the Hay.";
+		if (Input.GetKeyDown (KeyCode.Y)) {
+			myState = States.lock_1;
+		} else if (Input.GetKeyDown (KeyCode.H)) {
+			myState = States.hay_2;
+		}
+	}
+
+	void state_cell_2 ()
+	{
+		text.text = "You take one more look at the dank dark cell. You'll be glad when you " +
+		"are far away from here.\n\n" +
+		"Press S to slip away into the night. Press H to return to the hay.";
+		if (Input.GetKeyDown (KeyCode.S)) {
+			myState = States.freedom;
+		} else if (Input.GetKeyDown (KeyCode.H)) {
+			myState = States.ratKing;
+		}
+	}
+
+	void state_hay_0 ()
+	{
+		text.text = "You sift through the hay. All you can find is what appears to be rat droppings. \n\n" +
+		"Press R to return to roaming the cell.";
+		if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_hay_1 ()
+	{
+		text.text = "Still just a bunch of rat droppings...\n\n" +
+		"Press R to return to roaming your cell.";
+		if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_hay_2 ()
+	{
+		text.text = "Apparently you really love the smell of rat droppings and hay. You keep coming back for more.\n\n" +
+					"Press R to return to roaming your cell.";
+		if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell_1;
+		}
+	}
+
+	void state_stone_0 ()
+	{
+		text.text = "It's a loose stone. It looks like someone else was once here " +
+		"and pried it up. Take a look? \n\n" +
+		"Y - Yes\t N - No";
+		if (Input.GetKeyDown (KeyCode.Y)) {
+			myState = States.stone_1;
+		} else if (Input.GetKeyDown (KeyCode.N)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_stone_1 ()
+	{
+		text.text = "An iron filing, rather a long one too...maybe with this...?\n\n" +
+		"Press L to use the filing to pick the cell door. " +
+		"Press R to return to roaming your cell.";
+		if (Input.GetKeyDown (KeyCode.L)) {
+			myState = States.lock_1;
+		} else if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell_1;
+		}
+	}
+
+	void state_lock_0 ()
+	{
+		text.text = "It's locked up tight...the keyhole is fairly large...if only your hands were a bit smaller.\n\n" +
+		"Press R to return to roaming your cell.";
+		if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_lock_1 ()
+	{
+		text.text = "You place the iron filing into the keyhole and begin to pick away...\n\n" +
+		"Almost got it...\n\n" +
+		"There! It's open.\n\n" +
+		"Press S to slip away into the stone hallway. Press R to return inside your cell.";
+		if (Input.GetKeyDown (KeyCode.S)) {
+			myState = States.freedom;
+		} else if (Input.GetKeyDown (KeyCode.R)) {
+			myState = States.cell_2;
+		}
+
+	}
+
+	void state_freedom ()
+	{
+		text.text = "You slip away into the cold stone hallway and into the night. More to come!!!\n\n" +
+		"Press S to start again.";
+		if (Input.GetKeyDown (KeyCode.S)) {
+			myState = States.cell;
+		}
+	}
+
+	void state_ratKing ()
+	{
+		text.text = "You love this hay! You love rat droppings! Screw it! You'll stay here for ever " +
+					"and be King of the Rats! Oh how you love this filth! You just couldn't get " +
+					"enough of it. So you lose! \n\n" +
+
+					"Press S to start again, you dirty rat you.";
+					if (Input.GetKeyDown(KeyCode.S)) {
+						myState = States.cell;
+					}
+	}
+}
